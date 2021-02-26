@@ -1,16 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using NetCoreAngular.DataAccess;
 using NetCoreAngular.UnitOfWork;
+using NetCoreAngular.WebApi.Autenticacion;
 
 namespace NetCoreAngular.WebApi
 {
@@ -29,6 +26,21 @@ namespace NetCoreAngular.WebApi
             services.AddSingleton<IUnitOfWork>(option => new NorthwindUnitOfWork(
                 Configuration.GetConnectionString("Northwind")
                 ));
+            var tokenProvider = new JwtProvider("issuer", "audience", "northwind_2000");
+            services.AddSingleton<ITokenProvider>(tokenProvider);
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = tokenProvider.GetValidationParameters();
+                });
+            services.AddAuthorization(auth=>
+            {
+                auth.DefaultPolicy = new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser()
+                    .Build();
+            });
             services.AddControllers();
         }
 
@@ -39,6 +51,7 @@ namespace NetCoreAngular.WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseAuthentication();
 
             app.UseRouting();
 
