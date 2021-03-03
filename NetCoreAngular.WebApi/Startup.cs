@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using NetCoreAngular.DataAccess;
 using NetCoreAngular.UnitOfWork;
 using NetCoreAngular.WebApi.Autenticacion;
+using NetCoreAngular.WebApi.GlobalErrorsHandling;
 
 namespace NetCoreAngular.WebApi
 {
@@ -56,6 +57,7 @@ namespace NetCoreAngular.WebApi
             app.UseRouting();
 
             app.UseAuthorization();
+            app.ConfigureExceptionsHandler();
 
             app.UseEndpoints(endpoints =>
             {

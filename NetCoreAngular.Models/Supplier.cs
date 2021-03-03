@@ -1,6 +1,6 @@
 ﻿namespace NetCoreAngular.Models
 {
-    public class Supplider
+    public class Supplier
     {
         public int Id { get; set; }
         public string CompanyName { get; set; }
