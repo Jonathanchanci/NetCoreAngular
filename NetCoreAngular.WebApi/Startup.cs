@@ -43,6 +43,11 @@ namespace NetCoreAngular.WebApi
                     .Build();
             });
             services.AddControllers();
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                builder => builder.WithOrigins("*").AllowAnyHeader().AllowAnyMethod());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +61,8 @@ namespace NetCoreAngular.WebApi
 
             app.UseRouting();
 
+            app.UseCors();
+
             app.UseAuthorization();
             app.ConfigureExceptionsHandler();
 
@@ -63,6 +70,7 @@ namespace NetCoreAngular.WebApi
             {
                 endpoints.MapControllers();
             });
+
         }
     }
 }
