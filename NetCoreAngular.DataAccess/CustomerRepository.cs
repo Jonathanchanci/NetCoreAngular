@@ -13,7 +13,7 @@ namespace NetCoreAngular.DataAccess
 
         }
 
-        public IEnumerable<Customer> CustomerPagedList(int page, int rows)
+        public IEnumerable<CustomerList> CustomerPagedList(int page, int rows)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@page", page);
@@ -21,7 +21,7 @@ namespace NetCoreAngular.DataAccess
 
             using (var connection = new SqlConnection(_connerciontString))
             {
-                return connection.Query<Customer>("dbo.CustomerPagedList"
+                return connection.Query<CustomerList>("dbo.CustomerPagedList"
                                                     , parameters
                                                     , commandType: System.Data.CommandType.StoredProcedure);
             }
