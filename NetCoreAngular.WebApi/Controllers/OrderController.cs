@@ -25,5 +25,12 @@ namespace NetCoreAngular.WebApi.Controllers
         {
             return Ok(_unitOfWork.Order.getPaginatedOrder(page, rows));
         }
+
+        [HttpGet]
+        [Route("GetOrderById/{orderId:int}")]
+        public IActionResult GetOrderById(int orderId)
+        {
+            return Ok(_unitOfWork.Order.GetOrderById(orderId));
+        }
     }
 }
