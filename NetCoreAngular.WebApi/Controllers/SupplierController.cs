@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NetCoreAngular.Models;
 using NetCoreAngular.UnitOfWork;
+using NetCoreAngular.WebApi.Models;
 
 namespace NetCoreAngular.WebApi.Controllers
 {
@@ -23,11 +24,11 @@ namespace NetCoreAngular.WebApi.Controllers
             return Ok(_unitOfWork.Supplier.GetById(id));
         }
 
-        [HttpGet]
-        [Route("GetPaginatedSupplier/{page:int}/{rows:int}")]
-        public IActionResult GetPaginatedSupplier(int page, int rows)
+        [HttpPost]
+        [Route("GetPaginatedSupplier")]
+        public IActionResult GetPaginatedSupplier([FromBody]GetPaginatedSupplier request)
         {
-            return Ok(_unitOfWork.Supplier.SupplierPagedList(page, rows));
+            return Ok(_unitOfWork.Supplier.SupplierPagedList(request.Page, request.Rows, request.SearchTerm));
         }
 
         [HttpPost]
