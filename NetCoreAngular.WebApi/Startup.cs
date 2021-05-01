@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NetCoreAngular.BussinessLogic.Implementations;
+using NetCoreAngular.BussinessLogic.Interfaces;
 using NetCoreAngular.DataAccess;
 using NetCoreAngular.UnitOfWork;
 using NetCoreAngular.WebApi.Autenticacion;
@@ -24,6 +26,11 @@ namespace NetCoreAngular.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<ISupplierLogic, SupplierLogic>();
+            services.AddTransient<IOrderLogic, OrderLogic>();
+            services.AddTransient<ICustomerLogic, CustomerLogic>();
+            services.AddTransient<ITokenLogic, TokenLogic>();
+
             services.AddSingleton<IUnitOfWork>(option => new NorthwindUnitOfWork(
                 Configuration.GetConnectionString("Northwind")
                 ));

@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NetCoreAngular.BussinessLogic\NetCoreAngular.BussinessLogic.csproj" />
     <ProjectReference Include="..\NetCoreAngular.DataAccess\NetCoreAngular.DataAccess.csproj" />
     <ProjectReference Include="..\NetCoreAngular.UnitOfWork\NetCoreAngular.UnitOfWork.csproj" />
   </ItemGroup>

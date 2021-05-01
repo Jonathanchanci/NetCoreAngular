@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NetCoreAngular.BussinessLogic.Interfaces;
 using NetCoreAngular.UnitOfWork;
 
 namespace NetCoreAngular.WebApi.Controllers
@@ -13,24 +14,31 @@ namespace NetCoreAngular.WebApi.Controllers
     [Authorize]
     public class OrderController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
-        public OrderController(IUnitOfWork unitOfWork)
+        private readonly IOrderLogic _logic;
+        public OrderController(IOrderLogic logic)
         {
-            _unitOfWork = unitOfWork;
+            _logic = logic;
         }
 
         [HttpGet]
         [Route("GetPaginatedOrder/{page:int}/{rows:int}")]
         public IActionResult GetPaginatedOrder(int page, int rows)
         {
-            return Ok(_unitOfWork.Order.getPaginatedOrder(page, rows));
+            return Ok(_logic.GetPaginatedOrder(page, rows));
         }
 
         [HttpGet]
         [Route("GetOrderById/{orderId:int}")]
         public IActionResult GetOrderById(int orderId)
         {
-            return Ok(_unitOfWork.Order.GetOrderById(orderId));
+            return Ok(_logic.GetOrderById(orderId));
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var request = _logic.GetById(id);
+            return Ok(_logic.Delete(request));
         }
     }
 }
