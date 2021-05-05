@@ -11,5 +11,6 @@ namespace NetCoreAngular.BussinessLogic.Interfaces
         OrderList GetOrderById(int orderId);
         bool Delete(Order order);
         Order GetById(int orderId);
+        string GetOrderNumber(int orderId);
     }
 }

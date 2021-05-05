@@ -30,6 +30,18 @@ namespace Northwind.BusinessLogicTest.Mocked
             customerMocked.Setup(c => c.GetById(It.IsAny<int>()))
                 .Returns((int id) => _customers.FirstOrDefault(cus => cus.Id == id));
 
+            customerMocked.Setup(c => c.Insert(It.IsAny<Customer>()))
+                .Callback<Customer>((c) => _customers.Add(c))
+                .Returns<Customer>(c => c.Id);
+
+            customerMocked.Setup(c => c.Update(It.IsAny<Customer>()))
+                .Callback<Customer>((c) =>
+                {
+                    _customers.RemoveAll(cus => cus.Id == c.Id);
+                    _customers.Add(c);
+                })
+                .Returns(true);
+
             return customerMocked.Object;
         }
 

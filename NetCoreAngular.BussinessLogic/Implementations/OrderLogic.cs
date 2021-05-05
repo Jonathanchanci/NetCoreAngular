@@ -2,6 +2,7 @@
 using NetCoreAngular.Models;
 using NetCoreAngular.UnitOfWork;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NetCoreAngular.BussinessLogic.Implementations
 {
@@ -27,6 +28,14 @@ namespace NetCoreAngular.BussinessLogic.Implementations
         public Order GetById(int orderId)
         {
             return _unitOfWork.Order.GetById(orderId);
+        }
+
+        public string GetOrderNumber(int orderId)
+        {
+            var list = _unitOfWork.Order.GetList();
+            if (!list.Any()) return string.Empty;
+            var record = list.FirstOrDefault(x => x.Id == orderId);
+            return record.OrderNumber;
         }
     }
 }
